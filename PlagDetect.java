@@ -27,7 +27,7 @@ public class PlagDetect {
             N = Integer.parseInt(args[3]);
             
             if (N <= 0) {
-                System.out.println("Invalid N entry");
+                System.out.println("Invalid N entry.");
                 System.out.println(NumberFormat.getPercentInstance().format(0));
                 return;
             }
@@ -60,6 +60,7 @@ public class PlagDetect {
 
         //if N > # words, then print 0% and end    
         if (file1.split(" ").length < N) {
+            System.out.println("N entry too large.");
             System.out.println(NumberFormat.getPercentInstance().format(0));
             return;
         }
@@ -112,6 +113,7 @@ public class PlagDetect {
         int numMatches = 0;
         String[] text1 = t1.split(" ");
 
+        //commented out as part of no multi-match assumption
         /*if (N == 1) {
             for (int i = 0; i <= text1.length - N; i++) {
                 if (text2.contains(text1[i])) {
