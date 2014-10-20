@@ -25,6 +25,12 @@ public class PlagDetect {
         
         if (args.length == 4) {
             N = Integer.parseInt(args[3]);
+            
+            if (N <= 0) {
+                System.out.println("Invalid N entry");
+                System.out.println(NumberFormat.getPercentInstance().format(0));
+                return;
+            }
         }
 
         //read in data from files
@@ -40,7 +46,6 @@ public class PlagDetect {
 
         try {    
             BufferedReader syns_fr = new BufferedReader(new FileReader(syns_filename));
-            
             String line;
             
             while ((line = syns_fr.readLine()) != null) {
@@ -52,7 +57,8 @@ public class PlagDetect {
             System.out.println(e);
             return;
         }
-    
+
+        //if N > # words, then print 0% and end    
         if (file1.split(" ").length < N) {
             System.out.println(NumberFormat.getPercentInstance().format(0));
             return;
@@ -87,7 +93,7 @@ public class PlagDetect {
                 //if so, then add the first synomous entry to reduction
                 if (syn.get(s).contains(words[word])) {
                     match = true;
-                    reduction += syn.get(s).split(" ")[0];
+                    reduction += syn.get(s).split(" ")[0] + " ";
                 }
             }
             //otherwise, add the word from text
@@ -106,6 +112,17 @@ public class PlagDetect {
         int numMatches = 0;
         String[] text1 = t1.split(" ");
 
+        if (N == 1) {
+            for (int i = 0; i <= text1.length - N; i++) {
+                if (text2.contains(text1[i])) {
+                    numMatches++;
+                }
+            }
+
+            return numMatches;
+        }
+
+        //else
         for (int i = 0; i <= text1.length - N; i++) {
             int fromIndex = 0;
             int pos = text2.indexOf(text1[i], fromIndex);
@@ -117,7 +134,6 @@ public class PlagDetect {
                  
                 //check if an N-tuple match
                 for (int j = 1; j < str.length && tempCount < N && tempCount != -1; j++) {
-                    
                     if (text1[i + j].equals(str[j])) {
                         tempCount++;
                     } else {
