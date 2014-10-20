@@ -112,7 +112,7 @@ public class PlagDetect {
         int numMatches = 0;
         String[] text1 = t1.split(" ");
 
-        if (N == 1) {
+        /*if (N == 1) {
             for (int i = 0; i <= text1.length - N; i++) {
                 if (text2.contains(text1[i])) {
                     numMatches++;
@@ -120,14 +120,14 @@ public class PlagDetect {
             }
 
             return numMatches;
-        }
+        }*/
 
         //else
         for (int i = 0; i <= text1.length - N; i++) {
             int fromIndex = 0;
             int pos = text2.indexOf(text1[i], fromIndex);
             
-            //for all occurences of the text1 word in text2
+            //ASSUME NOT for all occurences of the text1 word in text2 - could be if statement, but left as while for easy switch - see below comment
             while (pos != -1) {
                 String[] str = text2.substring(pos).split(" ");
                 int tempCount = 1; //since it exists, already matched first word
@@ -147,7 +147,8 @@ public class PlagDetect {
                 }
 
                 //continue with next match
-                pos = text2.indexOf(text1[i], pos + 1);
+              //  pos = text2.indexOf(text1[i], pos + 1);
+              pos = -1; //this is done out of the assumption above - this line can be commented and the above line uncommented to allow for multi-matching but that introduces some interesting decisions regarding how to handle these cases
             }
         }
         
